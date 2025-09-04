@@ -1,5 +1,6 @@
 from chess_pieces import Piece
 from typing import List
+import time
 
 class Board:
     def __init__(self):
@@ -45,36 +46,41 @@ class Board:
             return True
         return False
 
-    def count_pieces(self, color: str= None, name: str = None) -> int:
-        c = 0
+    def count_pieces(self) -> dict:
+        pieces_dict = {}
         for row in self.grid:
             for piece in row:
                 if piece != 0:
-                    if name:
-                        if color and piece.color == color and piece.NAME == name:
-                            c += 1
+                    if f"{piece.NAME}_{piece.color}" in pieces_dict:
+                        pieces_dict[f"{piece.NAME}_{piece.color}"] += 1
                     else:
-                        if color and piece.color == color:
-                            c += 1
-                        elif not color:
-                            c += 1
-        return c
+                        pieces_dict[f"{piece.NAME}_{piece.color}"] = 1
+        return pieces_dict
 
-    def count_specials_pawn(self, color: str = None):
-        backward = 0
-        isolated = 0
-        doubled = 0
+    def count_specials_pawn(self):
+        backwardW, backwardB = 0, 0
+        isolatedW, isolatedB = 0, 0
+        doubledW, doubledB = 0, 0
         for row in self.grid:
             for piece in row:
-                if piece != 0 and piece.NAME == "Pawn" and piece.color == color:
+                if piece != 0 and piece.NAME == "Pawn":
                     if piece.check_doubled(self.grid):
-                        doubled += 1
+                        if piece.color == 'white':
+                            doubledW += 1
+                        else:
+                            doubledB += 1
                     if piece.check_backward(self.grid):
-                        backward += 1
+                        if piece.color == 'white':
+                            backwardW += 1
+                        else:
+                            backwardB += 1
                     if piece.check_isolated(self.grid):
-                        isolated += 1
+                        if piece.color == 'white':
+                            isolatedW += 1
+                        else:
+                            isolatedB += 1
 
-        return {"backward": backward, "isolated": isolated, "doubled": doubled}
+        return {"backward": (backwardW, backwardB), "isolated": (isolatedW, isolatedB), "doubled": (doubledW, doubledB)}
 
     def show_board(self):
         for row in self.grid:
