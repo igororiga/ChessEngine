@@ -60,6 +60,22 @@ class Board:
                             c += 1
         return c
 
+    def count_specials_pawn(self, color: str = None):
+        backward = 0
+        isolated = 0
+        doubled = 0
+        for row in self.grid:
+            for piece in row:
+                if piece != 0 and piece.NAME == "Pawn" and piece.color == color:
+                    if piece.check_doubled(self.grid):
+                        doubled += 1
+                    if piece.check_backward(self.grid):
+                        backward += 1
+                    if piece.check_isolated(self.grid):
+                        isolated += 1
+
+        return {"backward": backward, "isolated": isolated, "doubled": doubled}
+
     def show_board(self):
         for row in self.grid:
             print("[", end='')
@@ -69,7 +85,6 @@ class Board:
                 else:
                     print(f"{f"{piece.NAME} {"W" if piece.color == "white" else "B"}" if piece != 0 else f"   {piece}   "}, ", end='')
             print(']')
-        print('\n')
 
 def setup_board(list_pieces: set[Piece]) -> Board:
     board = Board()

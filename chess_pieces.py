@@ -252,7 +252,6 @@ class Pawn(Piece):
                 if board.is_valid(move, self.color) and board.is_enemy(move, self.color):
                     moves.append(move)
 
-    
         if self.color == "black":
             if board.is_valid((row - 1, col), self.color) and not board.is_enemy((row - 1, col), self.color):
                 moves.append((row - 1, col))
@@ -265,3 +264,60 @@ class Pawn(Piece):
                     moves.append(move)
 
         return moves
+
+    def check_doubled(self, boardgrid: List[list]):
+        x, y = self.position
+        if self.color == "white" and boardgrid[x+1][y] != 0 and boardgrid[x+1][y].color == "white":
+            return True
+        elif self.color == "black" and boardgrid[x-1][y] != 0 and boardgrid[x-1][y].color == "black":
+            return True
+
+    def check_backward(self, boardgrid: List[list]):
+        pos_white = [(-1, 1), (-1, -1), (-1, 0)]
+        pos_black = [(1, 1), (1, -1), (1, 0)]
+        row, col = self.position
+        if self.color == "white":
+            for pos in pos_white:
+                x, y = pos
+                is_range = (0 <= row+x < 8 and 0 <= col+y < 8 )
+                if not is_range:
+                    continue
+                if boardgrid[row+x][col+y] != 0:
+                    return False
+            is_range = (0 <= row+1 < 8 and 0 <= col-1 < 8 )
+            if is_range:
+                if boardgrid[row+1][col-1] != 0 and boardgrid[row+1][col-1].color == self.color:
+                    return True
+            is_range = (0 <= row+1 < 8 and 0 <= col+1 < 8 )
+            if is_range:
+                if boardgrid[row+1][col+1] != 0 and boardgrid[row+1][col+1].color == self.color:
+                    return True
+
+        elif self.color == "black":
+            for pos in pos_black:
+                x, y = pos
+                is_range = (0 <= row+x < 8 and 0 <= col+y < 8 )
+                if not is_range:
+                    continue
+                if boardgrid[row+x][col+y] != 0:
+                    return False
+            is_range = (0 <= row-1 < 8 and 0 <= col-1 < 8 )
+            if is_range:
+                if boardgrid[row-1][col-1] != 0 and boardgrid[row-1][col-1].color == self.color:
+                    return True
+            is_range = (0 <= row-1 < 8 and 0 <= col+1 < 8 )
+            if is_range:
+                if boardgrid[row-1][col+1] != 0 and boardgrid[row-1][col+1].color == self.color:
+                    return True
+
+    def check_isolated(self, boardgrid: List[list]):
+        x, y = self.position
+        positions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, 1), (1, -1), (-1, -1)]
+        for pos in positions:
+            row, col = pos
+            is_range = (0 <= row + x < 8 and 0 <= col + y < 8 )
+            if is_range and boardgrid[x+row][y+col] == 0:
+                continue
+            else:
+                return False
+        return True

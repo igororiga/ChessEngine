@@ -17,8 +17,12 @@ def evaluation_function(board: Board) -> int:
     Knw, Knb = board.count_pieces(color='white', name='Knight'), board.count_pieces(color='black', name='Knight')
     Pw, Pb = board.count_pieces(color='white', name='Pawn'), board.count_pieces(color='black', name='Pawn')
     Mw, Mb = len(get_valid_moves(board, step=None, color="white")), len(get_valid_moves(board, step=None, color="black"))
+    specials_pawn  = board.count_specials_pawn(color='white')
+    Dw, Iw, BWw = specials_pawn["doubled"], specials_pawn["isolated"], specials_pawn["backward"]
+    specials_pawn  = board.count_specials_pawn(color='black')   
+    Db, Ib, BWb = specials_pawn["doubled"], specials_pawn["isolated"], specials_pawn["backward"]
 
-    func = 200*(Kw - Kb) + 9*(Qw - Qb) + 5*(Rw - Rb) + 3*(Bw - Bb + Knw - Knb) + (Pw - Pb) + (Mw - Mb)
+    func = 200*(Kw - Kb) + 9*(Qw - Qb) + 5*(Rw - Rb) + 3*(Bw - Bb + Knw - Knb) + (Pw - Pb) + (Mw - Mb) - 5*(Dw + BWw + Iw - Db - Ib - BWb) 
     #print(Qw, Qb, Kw, Kb, Bw, Bb, Rw, Rb, Knw, Knb, Pw, Pb)
     return func
 
