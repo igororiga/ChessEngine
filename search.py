@@ -1,7 +1,7 @@
 from board import Board
-from typing import List
 from evaluation import evaluate_move, MoveEvaluation
-from moves import get_valid_moves, simulate_move, ValidMove
+from moves import get_valid_moves
+import time
 
 """def get_minimax(board: Board, color: str) -> MoveEvaluation:
     valid_moves = get_valid_moves(board, step=0, color=color)

@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Dict, List
 
-@dataclass(frozen=True)
+@dataclass
 class ValidMove:
     piece: Piece
     position: tuple

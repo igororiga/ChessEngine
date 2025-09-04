@@ -249,8 +249,9 @@ class Pawn(Piece):
                     moves.append((row + 2, col))
             
             for move in self.WHITE_ATK_MOVES:
-                if board.is_valid(move, self.color) and board.is_enemy(move, self.color):
-                    moves.append(move)
+                x, y = move
+                if board.is_valid((row+x, col+y), self.color) and board.is_enemy((row+x, col+y), self.color):
+                    moves.append((row+x, col+y))
 
         if self.color == "black":
             if board.is_valid((row - 1, col), self.color) and not board.is_enemy((row - 1, col), self.color):
@@ -260,16 +261,19 @@ class Pawn(Piece):
                     moves.append((row - 2, col))
             
             for move in self.BLACK_ATK_MOVES:
-                if board.is_valid(move, self.color) and board.is_enemy(move, self.color):
-                    moves.append(move)
+                x, y = move
+                if board.is_valid((row+x, col+y), self.color) and board.is_enemy((row+x, col+y), self.color):
+                    moves.append((row+x, col+y))
 
         return moves
 
     def check_doubled(self, boardgrid: List[list]):
         x, y = self.position
-        if self.color == "white" and boardgrid[x+1][y] != 0 and boardgrid[x+1][y].color == "white":
+        is_range = (0 <= x+1 < 8 and 0 <= y < 8 )
+        is_range2 = (0 <= x-1 < 8 and 0 <= y < 8 )
+        if is_range and self.color == "white" and boardgrid[x+1][y] != 0 and boardgrid[x+1][y].color == "white":
             return True
-        elif self.color == "black" and boardgrid[x-1][y] != 0 and boardgrid[x-1][y].color == "black":
+        elif is_range2 and self.color == "black" and boardgrid[x-1][y] != 0 and boardgrid[x-1][y].color == "black":
             return True
 
     def check_backward(self, boardgrid: List[list]):

@@ -4,7 +4,7 @@ from typing import Dict, List
 from dataclasses import dataclass
 from moves import get_valid_moves, simulate_move, ValidMove
 
-@dataclass(frozen=True)
+@dataclass
 class MoveEvaluation:
     move: ValidMove
     score: int = 0
