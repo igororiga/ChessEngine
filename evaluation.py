@@ -1,8 +1,6 @@
 from board import Board
-from chess_pieces import Piece
-from typing import Dict, List
 from dataclasses import dataclass
-from moves import get_valid_moves, simulate_move, ValidMove
+from moves import get_valid_moves, ValidMove
 
 @dataclass
 class MoveEvaluation:
@@ -18,11 +16,12 @@ def evaluation_function(board: Board) -> int:
     Knw, Knb = pieces_dict.get('Knight_white', 0), pieces_dict.get('Knight_black', 0)
     Pw, Pb = pieces_dict.get('Pawn_white', 0), pieces_dict.get('Pawn_black', 0)
     Mw, Mb = len(get_valid_moves(board, step=None, color="white")), len(get_valid_moves(board, step=None, color="black"))
+    center_w, center_b = board.count_center_pieces()
     specials_pawn  = board.count_specials_pawn()
     Dw, Db, = specials_pawn["doubled"]
     Iw, Ib = specials_pawn["isolated"]
     BWw, BWb = specials_pawn["backward"]
-    func = 200*(Kw - Kb) + 9*(Qw - Qb) + 5*(Rw - Rb) + 3*(Bw - Bb + Knw - Knb) + (Pw - Pb) + (Mw - Mb) - 5*(Dw + BWw + Iw - Db - Ib - BWb) 
+    func = 200*(Kw - Kb) + 9*(Qw - Qb) + 5*(Rw - Rb) + 3*(Bw - Bb + Knw - Knb) + (Pw - Pb) + (Mw - Mb) + (center_w - center_b) - 5*(Dw + BWw + Iw - Db - Ib - BWb) 
     #print(Qw, Qb, Kw, Kb, Bw, Bb, Rw, Rb, Knw, Knb, Pw, Pb)
     return func
 

@@ -45,6 +45,20 @@ class Board:
         if self.grid[position[0]][position[1]] == 0:
             return True
         return False
+    
+    def count_center_pieces(self):
+        center = [(3, 3), (4, 3), (3, 4), (4, 4)]
+        white_pieces, black_pieces = 0, 0
+        for position in center:
+            x, y = position
+            piece = self.grid[x][y]
+            if piece != 0:
+                if piece.color == "white":
+                    white_pieces += 1
+                elif piece.color == "black":
+                    black_pieces += 1
+            
+        return white_pieces, black_pieces
 
     def count_pieces(self) -> dict:
         pieces_dict = {}
@@ -57,7 +71,7 @@ class Board:
                         pieces_dict[f"{piece.NAME}_{piece.color}"] = 1
         return pieces_dict
 
-    def count_specials_pawn(self):
+    def count_specials_pawn(self) -> dict:
         backwardW, backwardB = 0, 0
         isolatedW, isolatedB = 0, 0
         doubledW, doubledB = 0, 0
