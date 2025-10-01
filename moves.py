@@ -27,6 +27,6 @@ def get_valid_moves(board: Board, step: int, color: str = None) -> List[ValidMov
                 valid_moves = piece.check_valid_moves(board)
                 valid_moves = [ValidMove(piece=piece, position=move, board=simulate_move(board, piece, move), step=step) for move in valid_moves]
                 all_moves.append(valid_moves)
-        
+
     all_moves = [move for list_move in all_moves for move in list_move]  # Flat list
     return all_moves

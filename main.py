@@ -22,7 +22,11 @@ def main():
     print(f"Turn {turn} - White turn")
     board.show_board()
     print("")
+    start = time.time()
     while True:
+        if turn == 10:
+            print("----------------- Max turns reached, it's a draw! -----------------")
+            break
         start1 = time.time()
         result= get_minimax(board, color="white")
         result.move.piece = pawn_to_queen(result.move.position, result.move.piece, Queen)
@@ -51,6 +55,8 @@ def main():
         print(f"Turn {turn} - White turn")
         board.show_board()
         print("\n")
+
+    print(f"Total time spent: {time.time()-start}")
 
 def victory_message(message):
     print(Fore.GREEN + f"\n*********************** CHECK MATE, {message.upper()} WINS! ***********************")
