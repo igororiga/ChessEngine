@@ -1,5 +1,6 @@
 from chess_pieces import King, Pawn, Rook, Knight, Bishop, Queen, Board, Piece
 from board import Board, setup_board, pawn_to_queen, is_checkmate
+from moves import search_for_xequemate, is_mate
 from search import get_minimax
 from colorama import Fore, Style, init
 import time
@@ -25,28 +26,27 @@ def main():
     start = time.time()
     while True:
         start1 = time.time()
-        result= get_minimax(board, color="white")
-        result.move.piece.has_moved = True
-        if is_checkmate(result.move.position, board):
-            board.set_position(result.move.position, result.move.piece)
+        #result= get_minimax(board, color="white")
+        #result.move.piece.has_moved = True
+        #board.set_position(result.move.position, result.move.piece)
+        if search_for_xequemate(board, color="white"):
             board.show_board()
             victory_message("white")
             return
-        board.set_position(result.move.position, result.move.piece)
         print(f"time spent: {time.time()-start1}")
         print(f"Turn {turn} - Black turn")
         board.show_board()
+        time.sleep(100)
         print("\n")
 
         start2 = time.time()
         result2 = get_minimax(board, color="black")
         result2.move.piece.has_moved = True
-        if is_checkmate(result2.move.position, board):
-            board.set_position(result2.move.position, result2.move.piece)
+        board.set_position(result2.move.position, result2.move.piece)
+        if search_for_xequemate(board, color="black"):
             board.show_board()
             victory_message("black")
             return
-        board.set_position(result2.move.position, result2.move.piece)
         turn += 1
         print(f"time spent: {time.time()-start2}")
         print(f"Turn {turn} - White turn")

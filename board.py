@@ -96,6 +96,45 @@ class Board:
 
         return {"backward": (backwardW, backwardB), "isolated": (isolatedW, isolatedB), "doubled": (doubledW, doubledB)}
 
+    """def can_castle(self, color: str, side: str) -> bool:
+        if color == "white":
+            row = 0
+        else:
+            row = 7
+
+        king_col = 4
+        if side == "kingside":
+            rook_col = 7
+            path = [5, 6]
+        elif side == "queenside":
+            rook_col = 0
+            path = [3, 2, 1]
+        else:
+            return False
+
+        king = self.grid[row][king_col]
+        rook = self.grid[row][rook_col]
+
+        if (
+            king == 0 or rook == 0 or
+            king.NAME != "King" or rook.NAME != "Rook" or
+            getattr(king, "has_moved", True) or getattr(rook, "has_moved", True)
+        ):
+            return False
+
+        # Verifica se as casas entre o rei e a torre estão vazias
+        for col in path:
+            if self.grid[row][col] != 0:
+                return False
+
+        return True
+
+    def can_castle_kingside(self, color: str) -> bool:
+        return self.can_castle(color, "kingside")
+
+    def can_castle_queenside(self, color: str) -> bool:
+        return self.can_castle(color, "queenside")"""
+
     def show_board(self):
         for row in self.grid:
             print("[", end='')
@@ -122,10 +161,10 @@ def setup_board(list_pieces: set[Piece]) -> Board:
 
     return board
 
-def pawn_to_queen(position: tuple, piece: Piece, queen: Piece):
+def pawn_to_queen(position: tuple, piece: Piece, type: Piece):
     x, y = position
     if piece.NAME == "Pawn" and ((piece.color == 'white' and x == 7) or (piece.color == 'black' and x == 0)):
-        return queen(piece.color, piece.position)
+        return type(piece.color, piece.position)
     return piece
 
 def is_checkmate(position: tuple, board: Board):
