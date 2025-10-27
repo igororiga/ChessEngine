@@ -1,4 +1,4 @@
-from board import Board
+from board import Board, pawn_to_queen
 from chess_pieces import Piece
 from copy import deepcopy
 from dataclasses import dataclass
@@ -14,6 +14,7 @@ class ValidMove:
 def simulate_move(board: Board, piece: Piece, move: tuple) -> Board:
     new_board = Board()
     new_board.grid = deepcopy(board.grid)
+    piece = pawn_to_queen(position=move, piece=piece)  # Just to check for promotion
     new_board.set_position(move, piece, update_position=False)
 
     return new_board

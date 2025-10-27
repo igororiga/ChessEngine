@@ -24,12 +24,9 @@ def main():
     print("")
     start = time.time()
     while True:
-        if turn == 10:
-            print("----------------- Max turns reached, it's a draw! -----------------")
-            break
         start1 = time.time()
         result= get_minimax(board, color="white")
-        result.move.piece = pawn_to_queen(result.move.position, result.move.piece, Queen)
+        result.move.piece.has_moved = True
         if is_checkmate(result.move.position, board):
             board.set_position(result.move.position, result.move.piece)
             board.show_board()
@@ -43,7 +40,7 @@ def main():
 
         start2 = time.time()
         result2 = get_minimax(board, color="black")
-        result2.move.piece = pawn_to_queen(result2.move.position, result2.move.piece, Queen)
+        result2.move.piece.has_moved = True
         if is_checkmate(result2.move.position, board):
             board.set_position(result2.move.position, result2.move.piece)
             board.show_board()
