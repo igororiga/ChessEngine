@@ -58,7 +58,6 @@ def is_mate(board: Board, piece: Piece) -> bool:
 def is_xequemate(board: Board, x, y) -> bool:
     king = board.grid[x][y]
     valid_moves = king.check_valid_moves(board)
-    print(valid_moves)
     for move in valid_moves:
         new_board = simulate_move(board, king, move)
         for row in new_board.grid:
