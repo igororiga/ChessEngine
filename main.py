@@ -29,32 +29,37 @@ def main():
         start1 = time.time()
         result= get_minimax(board, color="white")
         result.move.piece.has_moved = True
+        print(f"time spent: {time.time()-start1}")
+        print(f"Chosen move: {result.move.piece.NAME} to {result.move.position}; score: {result.score}\n")
+        if result.move.promotion:
+            result.move.piece = Queen(color="white", position=result.move.piece.position)
         board.set_position(result.move.position, result.move.piece)
         if search_for_xequemate(board, color="white"):
             board.show_board()
             victory_message("white")
             return
-        print(f"time spent: {time.time()-start1}")
-        print(f"Chosen move: {result.move.piece.NAME} to {result.move.position}; score: {result.score}\n")
+        turn += 1
         print(f"Turn {turn} - Black turn")
         board.show_board()
-        time.sleep(100)
+        time.sleep(1)
         print("\n")
 
         start2 = time.time()
         result2 = get_minimax(board, color="black")
         result2.move.piece.has_moved = True
+        print(f"time spent: {time.time()-start2}")
+        print(f"Chosen move: {result2.move.piece.NAME} to {result2.move.position}; score: {result2.score}\n")
+        if result2.move.promotion:
+            result2.move.piece = Queen(color="black", position=result2.move.piece.position)
         board.set_position(result2.move.position, result2.move.piece)
         if search_for_xequemate(board, color="black"):
             board.show_board()
             victory_message("black")
             return
         turn += 1
-        print(f"time spent: {time.time()-start2}")
-        print(f"Chosen move: {result2.move.piece.NAME} to {result2.move.position}; score: {result2.score}\n")
         print(f"Turn {turn} - White turn")
         board.show_board()
-        print("\n")
+        time.sleep(1)
 
     print(f"Total time spent: {time.time()-start}")
 

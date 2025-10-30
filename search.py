@@ -1,23 +1,24 @@
 from board import Board
+from chess_pieces import Queen
 from evaluation import evaluate_move, MoveEvaluation
 from moves import get_valid_moves
 import time
 
-def get_minimax(board: Board, color: str) -> MoveEvaluation:
-    valid_moves = get_valid_moves(board, step=0, color=color)
+"""def get_minimax(board: Board, color: str) -> MoveEvaluation:
+    valid_moves = get_valid_moves(board, step=0, color=color, queen=Queen)
     first_moves_eval = []
     total_moves = 0
     # Step 1 - Team possible moviments
     alpha = None
     for move in valid_moves:
-        opponent_valid_moves = get_valid_moves(move.board, step = 1, color="black" if color=="white" else "white")
+        opponent_valid_moves = get_valid_moves(move.board, step = 1, color="black" if color=="white" else "white", queen=Queen)
         opponent_moves_eval = []
         total_moves += 1
 
         beta = None
         # Step 2 - Opponent possible moviments
         for oppenent_move in opponent_valid_moves:
-            second_valid_moves = get_valid_moves(oppenent_move.board, step = 2, color=color)
+            second_valid_moves = get_valid_moves(oppenent_move.board, step = 2, color=color, queen=Queen)
             second_moves_eval = []
             total_moves += 1
 
@@ -67,16 +68,16 @@ def get_minimax(board: Board, color: str) -> MoveEvaluation:
 
     #print(best_move.move.board.show_board())
     print(f"Total moves evaluated: {total_moves}")
-    return best_move
+    return best_move"""
 
 """def get_minimax(board: Board, color: str) -> MoveEvaluation:
-    valid_moves = get_valid_moves(board, step=0, color=color)
+    valid_moves = get_valid_moves(board, step=0, color=color, queen=Queen)
     first_moves_eval = []
     total_moves = 0
     # Step 1 - Team possible moviments
     alpha = None
     for move in valid_moves:
-        opponent_valid_moves = get_valid_moves(move.board, step = 1, color="black" if color=="white" else "white")
+        opponent_valid_moves = get_valid_moves(move.board, step = 1, color="black" if color=="white" else "white", queen=Queen)
         opponent_moves_eval = []
         total_moves += 1
 
@@ -113,12 +114,11 @@ def get_minimax(board: Board, color: str) -> MoveEvaluation:
     print(f"Total moves evaluated: {total_moves}")
     return best_move"""
 
-"""def get_minimax(board: Board, color: str) -> MoveEvaluation:
-    valid_moves = get_valid_moves(board, step=0, color=color)
+def get_minimax(board: Board, color: str) -> MoveEvaluation:
+    valid_moves = get_valid_moves(board, step=0, color=color, queen=Queen)
     if not valid_moves:
         print("Total moves evaluated: 0")
         return None
-
     moves_eval = []
     for move in valid_moves:
         mv_eval = evaluate_move(move)
@@ -130,5 +130,5 @@ def get_minimax(board: Board, color: str) -> MoveEvaluation:
         best_move = min(moves_eval, key=lambda m: m.score)
 
     print(f"Total moves evaluated: {len(moves_eval)}")
-    return best_move"""
+    return best_move
 

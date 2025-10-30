@@ -161,12 +161,6 @@ def setup_board(list_pieces: set[Piece]) -> Board:
 
     return board
 
-def pawn_to_queen(position: tuple, piece: Piece, type: Piece):
-    x, y = position
-    if piece.NAME == "Pawn" and ((piece.color == 'white' and x == 7) or (piece.color == 'black' and x == 0)):
-        return type(piece.color, piece.position)
-    return piece
-
 def is_checkmate(position: tuple, board: Board):
     x, y = position
     if board.grid[x][y] != 0 and board.grid[x][y].NAME == "King":

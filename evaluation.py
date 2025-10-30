@@ -1,3 +1,4 @@
+from chess_pieces import Piece, Queen
 from board import Board
 from dataclasses import dataclass
 from moves import get_valid_moves, ValidMove
@@ -15,7 +16,7 @@ def evaluation_function(board: Board) -> int:
     Rw, Rb = pieces_dict.get('Rook_white', 0), pieces_dict.get('Rook_black', 0)
     Knw, Knb = pieces_dict.get('Knight_white', 0), pieces_dict.get('Knight_black', 0)
     Pw, Pb = pieces_dict.get('Pawn_white', 0), pieces_dict.get('Pawn_black', 0)
-    Mw, Mb = len(get_valid_moves(board, step=None, color="white")), len(get_valid_moves(board, step=None, color="black"))
+    Mw, Mb = len(get_valid_moves(board, step=None, queen=Queen, color="white")), len(get_valid_moves(board, step=None, queen=Queen, color="black"))
     center_w, center_b = board.count_center_pieces()
     specials_pawn  = board.count_specials_pawn()
     Dw, Db, = specials_pawn["doubled"]
